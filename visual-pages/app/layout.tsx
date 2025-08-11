@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
-import { AuthProvider } from "@/contexts/AuthContext";
-import { ToastProvider } from "@/contexts/ToastContext";
+import { Providers } from "./providers";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 
 const inter = Inter({
@@ -38,17 +37,15 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${jetbrainsMono.variable} antialiased min-h-screen bg-gradient-to-b from-gray-50 to-white`}
       >
-        <ToastProvider>
-            <AuthProvider>
-              <ErrorBoundary>
-                <div className="flex flex-col min-h-screen">
-                  <main className="flex-grow">
-                    {children}
-                  </main>
-                </div>
-              </ErrorBoundary>
-            </AuthProvider>
-        </ToastProvider>
+        <Providers>
+          <ErrorBoundary>
+            <div className="flex flex-col min-h-screen">
+              <main className="flex-grow">
+                {children}
+              </main>
+            </div>
+          </ErrorBoundary>
+        </Providers>
       </body>
     </html>
   );

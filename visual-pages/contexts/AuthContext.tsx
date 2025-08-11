@@ -108,16 +108,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const logout = async () => {
-    try {
-      await axios.post(`${API_URL}/api/auth/logout`);
-    } catch (error) {
-      console.error('Logout error:', error);
-    } finally {
-      localStorage.removeItem('token');
-      delete axios.defaults.headers.common['Authorization'];
-      setUser(null);
-      router.push('/');
-    }
+    // Since we don't have a backend yet, just clear local state
+    // When backend is available, uncomment the API call below:
+    // try {
+    //   await axios.post(`${API_URL}/api/auth/logout`);
+    // } catch (error) {
+    //   console.error('Logout error:', error);
+    // }
+    
+    localStorage.removeItem('token');
+    delete axios.defaults.headers.common['Authorization'];
+    setUser(null);
+    router.push('/');
   };
 
   const forgotPassword = async (email: string) => {
