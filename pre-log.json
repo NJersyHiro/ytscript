@@ -1,0 +1,11 @@
+{
+  "session_id": "85b4ffe8-7b61-4e97-b760-4c09f466d5aa",
+  "transcript_path": "/home/th1kh/.claude/projects/-home-th1kh-ytscript/85b4ffe8-7b61-4e97-b760-4c09f466d5aa.jsonl",
+  "cwd": "/home/th1kh/ytscript",
+  "hook_event_name": "PreToolUse",
+  "tool_name": "Bash",
+  "tool_input": {
+    "command": "git add -A",
+    "description": "Add all changes including deletions"
+  }
+}

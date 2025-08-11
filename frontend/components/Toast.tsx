@@ -9,6 +9,7 @@ interface ToastProps {
  type: ToastType;
  title: string;
  message?: string;
+ duration?: number;
  onClose: () => void;
 }
 
@@ -33,7 +34,8 @@ const iconColors = {
  info: 'text-blue-600',
 };
 
-export default function Toast({ type, title, message, onClose }: ToastProps) {
+export default function Toast({ type, title, message, duration = 5000, onClose }: ToastProps) {
+ const [isVisible, setIsVisible] = useState(false);
  const [isExiting, setIsExiting] = useState(false);
  const Icon = icons[type];
 
@@ -45,20 +47,28 @@ export default function Toast({ type, title, message, onClose }: ToastProps) {
  };
 
  useEffect(() => {
-  const timer = setTimeout(() => {
-   handleClose();
-  }, 5000);
+  // Trigger entrance animation
+  setTimeout(() => setIsVisible(true), 10);
+  
+  // Auto-dismiss after duration
+  if (duration > 0) {
+   const timer = setTimeout(() => {
+    handleClose();
+   }, duration);
 
-  return () => clearTimeout(timer);
- }, []);
+   return () => clearTimeout(timer);
+  }
+ }, [duration]);
 
  return (
   <div
    className={`
     ${colors[type]}
     border rounded-lg shadow-lg p-4 mb-3 flex items-start gap-3
-    transition-all duration-300 transform min-w-[320px]
-    ${isExiting ? 'opacity-0 translate-x-full' : 'opacity-100 translate-x-0'}
+    transition-all duration-300 ease-in-out transform min-w-[320px] max-w-md
+    ${isExiting ? 'opacity-0 translate-x-full scale-95' : 
+      isVisible ? 'opacity-100 translate-x-0 scale-100' : 
+      'opacity-0 translate-x-full scale-95'}
    `}
   >
    <Icon className={`w-5 h-5 flex-shrink-0 mt-0.5 ${iconColors[type]}`} />

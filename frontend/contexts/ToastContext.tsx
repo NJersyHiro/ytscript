@@ -27,6 +27,10 @@ const ToastContext = createContext<ToastContextType | undefined>(undefined);
 export function ToastProvider({ children }: { children: ReactNode }) {
   const [toasts, setToasts] = useState<ToastMessage[]>([]);
 
+  const hideToast = useCallback((id: string) => {
+    setToasts((prev) => prev.filter((toast) => toast.id !== id));
+  }, []);
+
   const showToast = useCallback(
     (type: ToastType, title: string, message?: string, duration: number = 5000) => {
       const id = Date.now().toString();
@@ -38,7 +42,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
         duration,
       };
 
-      setToasts((prev) => [...prev, newToast]);
+      setToasts((prev) => [newToast, ...prev]); // Add new toasts at the beginning
 
       // Auto-dismiss after duration
       if (duration > 0) {
@@ -47,12 +51,8 @@ export function ToastProvider({ children }: { children: ReactNode }) {
         }, duration);
       }
     },
-    []
+    [hideToast]
   );
-
-  const hideToast = useCallback((id: string) => {
-    setToasts((prev) => prev.filter((toast) => toast.id !== id));
-  }, []);
 
   const showSuccess = useCallback(
     (title: string, message?: string) => {
@@ -95,15 +95,17 @@ export function ToastProvider({ children }: { children: ReactNode }) {
     <ToastContext.Provider value={value}>
       {children}
       {/* Toast Container */}
-      <div className="fixed bottom-4 right-4 z-50 flex flex-col gap-2">
+      <div className="fixed bottom-4 right-4 z-50 flex flex-col-reverse gap-2 pointer-events-none">
         {toasts.map((toast) => (
-          <Toast
-            key={toast.id}
-            type={toast.type}
-            title={toast.title}
-            message={toast.message}
-            onClose={() => hideToast(toast.id)}
-          />
+          <div key={toast.id} className="pointer-events-auto">
+            <Toast
+              type={toast.type}
+              title={toast.title}
+              message={toast.message}
+              duration={toast.duration}
+              onClose={() => hideToast(toast.id)}
+            />
+          </div>
         ))}
       </div>
     </ToastContext.Provider>
