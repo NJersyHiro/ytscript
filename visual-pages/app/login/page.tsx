@@ -134,9 +134,9 @@ export default function LoginPage() {
                 <input type="checkbox" className="rounded border-gray-300 text-blue-600 focus:ring-blue-600" />
                 <span className="ml-2 text-sm text-gray-600 dark:text-gray-400">Remember me</span>
               </label>
-              <Link href="/forgot-password" className="text-sm text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300">
+              <span className="text-sm text-gray-500 dark:text-gray-400">
                 Forgot password?
-              </Link>
+              </span>
             </div>
 
             {/* Submit Button */}
@@ -197,8 +197,6 @@ export default function LoginPage() {
         <div className="mt-8 text-center">
           <div className="flex items-center justify-center gap-6 text-sm text-gray-500 dark:text-gray-400">
             <Link href="/terms" className="hover:text-gray-700 dark:hover:text-gray-300">Terms</Link>
-            <Link href="/privacy" className="hover:text-gray-700 dark:hover:text-gray-300">Privacy</Link>
-            <Link href="/contact" className="hover:text-gray-700 dark:hover:text-gray-300">Support</Link>
           </div>
         </div>
       </div>

@@ -256,10 +256,6 @@ export default function SignupPage() {
                 I agree to the{' '}
                 <Link href="/terms" className="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300">
                   Terms of Service
-                </Link>{' '}
-                and{' '}
-                <Link href="/privacy" className="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300">
-                  Privacy Policy
                 </Link>
               </label>
             </div>
@@ -345,8 +341,6 @@ export default function SignupPage() {
         <div className="mt-8 text-center">
           <div className="flex items-center justify-center gap-6 text-sm text-gray-500 dark:text-gray-400">
             <Link href="/terms" className="hover:text-gray-700 dark:hover:text-gray-300">Terms</Link>
-            <Link href="/privacy" className="hover:text-gray-700 dark:hover:text-gray-300">Privacy</Link>
-            <Link href="/contact" className="hover:text-gray-700 dark:hover:text-gray-300">Support</Link>
           </div>
         </div>
       </div>

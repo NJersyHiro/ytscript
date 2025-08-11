@@ -176,8 +176,7 @@ export default function Terms() {
               <h2 className="text-xl font-semibold text-gray-900 mb-4">8. Privacy and Data Protection</h2>
               <p className="text-gray-700 mb-4">
                 Your privacy is important to us. Our data practices are described in our 
-                <a href="/privacy" className="text-blue-600 hover:underline"> Privacy Policy</a>, 
-                which is incorporated into these Terms by reference.
+                Privacy Policy, which is incorporated into these Terms by reference.
               </p>
               <p className="text-gray-700 mb-4">
                 Key points:

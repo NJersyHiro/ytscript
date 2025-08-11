@@ -507,23 +507,8 @@ export default function Home() {
                 <h4 className="font-bold text-white mb-6">Support & Legal</h4>
                 <ul className="space-y-4 text-gray-400">
                   <li>
-                    <a href="/docs" className="hover:text-white hover:translate-x-1 transition-all duration-200 inline-block">
-                      Documentation
-                    </a>
-                  </li>
-                  <li>
-                    <a href="/contact" className="hover:text-white hover:translate-x-1 transition-all duration-200 inline-block">
-                      Contact
-                    </a>
-                  </li>
-                  <li>
                     <a href="/terms" className="hover:text-white hover:translate-x-1 transition-all duration-200 inline-block">
                       Terms of Service
-                    </a>
-                  </li>
-                  <li>
-                    <a href="/privacy" className="hover:text-white hover:translate-x-1 transition-all duration-200 inline-block">
-                      Privacy Policy
                     </a>
                   </li>
                 </ul>
