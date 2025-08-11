@@ -417,7 +417,7 @@ export default function DashboardPage() {
               <div className="flex items-center gap-2">
                 {subscriptionDetails?.plan === 'free' && (
                   <Link 
-                    href="/pricing" 
+                    href="/#pricing" 
                     className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all"
                   >
                     <span>Upgrade to Pro</span>
@@ -498,7 +498,7 @@ export default function DashboardPage() {
               </div>
               <p className="text-2xl font-bold capitalize">{stats.tier}</p>
               {stats.tier === 'free' && (
-                <Link href="/pricing" className="text-sm text-blue-600 hover:underline mt-1 inline-block">
+                <Link href="/#pricing" className="text-sm text-blue-600 hover:underline mt-1 inline-block">
                   Upgrade to Premium
                 </Link>
               )}
@@ -577,7 +577,7 @@ export default function DashboardPage() {
             <p className="mb-6">
               Get unlimited transcripts, AI summaries, batch processing, and more with YTScript Premium.
             </p>
-            <Link href="/pricing" className="inline-block bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
+            <Link href="/#pricing" className="inline-block bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
               Upgrade Now - Start Free Trial
             </Link>
           </div>
