@@ -1,0 +1,178 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// User Authentication and Profile
+model User {
+  id                String    @id @default(uuid())
+  email             String    @unique
+  password          String    // Hashed with bcrypt
+  name              String?
+  refreshToken      String?   @unique
+  isEmailVerified   Boolean   @default(false)
+  emailVerificationToken String? @unique
+  resetPasswordToken     String? @unique
+  resetPasswordExpires   DateTime?
+  
+  // Subscription info
+  plan              PlanType  @default(FREE)
+  stripeCustomerId  String?   @unique
+  subscriptionId    String?   @unique
+  subscriptionStatus String?
+  subscriptionEndDate DateTime?
+  
+  // Usage tracking
+  monthlyUsage      Int       @default(0)
+  totalUsage        Int       @default(0)
+  lastUsageReset    DateTime  @default(now())
+  
+  // Timestamps
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  lastLogin         DateTime?
+  
+  // Relations
+  transcripts       Transcript[]
+  sessions          Session[]
+  apiKeys           ApiKey[]
+  usageLogs         UsageLog[]
+  payments          Payment[]
+  
+  @@index([email])
+  @@index([stripeCustomerId])
+}
+
+// Session management for authentication
+model Session {
+  id        String   @id @default(uuid())
+  userId    String
+  token     String   @unique
+  userAgent String?
+  ipAddress String?
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@index([token])
+  @@index([userId])
+}
+
+// API Key management for programmatic access
+model ApiKey {
+  id          String    @id @default(uuid())
+  userId      String
+  name        String
+  key         String    @unique
+  lastUsed    DateTime?
+  usageCount  Int       @default(0)
+  isActive    Boolean   @default(true)
+  expiresAt   DateTime?
+  createdAt   DateTime  @default(now())
+  
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@index([key])
+  @@index([userId])
+}
+
+// Transcript records
+model Transcript {
+  id           String    @id @default(uuid())
+  userId       String
+  videoUrl     String
+  videoId      String
+  videoTitle   String?
+  channelName  String?
+  duration     Int?      // Duration in seconds
+  language     String    @default("en")
+  
+  // Content
+  rawTranscript String?  @db.Text
+  srtContent   String?   @db.Text
+  jsonContent  Json?
+  summary      String?   @db.Text
+  
+  // File storage references
+  txtFileUrl   String?
+  srtFileUrl   String?
+  jsonFileUrl  String?
+  pdfFileUrl   String?
+  docxFileUrl  String?
+  xlsxFileUrl  String?
+  
+  // Metadata
+  wordCount    Int?
+  processingTime Int?    // Processing time in milliseconds
+  status       TranscriptStatus @default(PROCESSING)
+  error        String?
+  
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@index([userId])
+  @@index([videoId])
+  @@index([status])
+}
+
+// Usage tracking for rate limiting and billing
+model UsageLog {
+  id           String    @id @default(uuid())
+  userId       String
+  action       String    // e.g., "transcript_extraction", "summary_generation"
+  credits      Int       @default(1)
+  metadata     Json?     // Additional context
+  ipAddress    String?
+  userAgent    String?
+  createdAt    DateTime  @default(now())
+  
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@index([userId])
+  @@index([action])
+  @@index([createdAt])
+}
+
+// Payment records for Stripe integration
+model Payment {
+  id               String    @id @default(uuid())
+  userId           String
+  stripePaymentId  String    @unique
+  amount           Int       // Amount in cents
+  currency         String    @default("usd")
+  status           String    // Stripe payment status
+  paymentMethod    String?
+  receiptUrl       String?
+  metadata         Json?
+  createdAt        DateTime  @default(now())
+  
+  user             User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@index([userId])
+  @@index([stripePaymentId])
+}
+
+// Enums
+enum PlanType {
+  FREE
+  PRO
+  ENTERPRISE
+}
+
+enum TranscriptStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+}

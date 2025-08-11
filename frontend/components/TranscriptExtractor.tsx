@@ -109,6 +109,7 @@ export default function TranscriptExtractor() {
     headers: {
      'Content-Type': 'application/json',
     },
+    credentials: 'include', // Include cookies for OAuth authentication
     body: JSON.stringify({ 
      url: url.trim(),
      language: selectedLanguage,

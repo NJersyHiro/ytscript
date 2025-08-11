@@ -1,11 +1,11 @@
 {
   "session_id": "4af2b619-b186-46d4-a5a8-20858d8492f1",
   "transcript_path": "/home/th1kh/.claude/projects/-home-th1kh-ytscript/4af2b619-b186-46d4-a5a8-20858d8492f1.jsonl",
-  "cwd": "/home/th1kh/ytscript/frontend",
+  "cwd": "/home/th1kh/ytscript/backend",
   "hook_event_name": "PreToolUse",
   "tool_name": "Bash",
   "tool_input": {
-    "command": "cd /home/th1kh/ytscript/backend && npm install cookie-parser && npm install --save-dev @types/cookie-parser",
-    "description": "Install cookie-parser and its types for OAuth session handling"
+    "command": "git add -A && git status",
+    "description": "Stage all changes and check status"
   }
 }
