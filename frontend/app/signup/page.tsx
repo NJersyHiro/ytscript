@@ -3,12 +3,12 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { useAuth } from '@/contexts/AuthContext';
-import { Video, Eye, EyeOff, Mail, Lock, User, ArrowRight, CheckCircle } from 'lucide-react';
+import { Video, Eye, EyeOff, Mail, Lock, ArrowRight, CheckCircle } from 'lucide-react';
+// import { signIn } from 'next-auth/react';
 
 export default function SignupPage() {
  const { signup } = useAuth();
  const [formData, setFormData] = useState({
-  name: '',
   email: '',
   password: '',
   confirmPassword: ''
@@ -31,8 +31,8 @@ export default function SignupPage() {
    return;
   }
 
-  if (formData.password.length < 6) {
-   setError('Password must be at least 6 characters');
+  if (formData.password.length < 8) {
+   setError('Password must be at least 8 characters');
    setLoading(false);
    return;
   }
@@ -44,7 +44,7 @@ export default function SignupPage() {
   }
 
   try {
-   await signup(formData.name, formData.email, formData.password);
+   await signup(formData.email, formData.password);
    // AuthProvider will handle the redirect to dashboard
   } catch (err) {
    setError((err as Error).message || 'Signup failed. Please try again.');
@@ -62,8 +62,7 @@ export default function SignupPage() {
 
  const passwordStrength = (password: string) => {
   if (password.length === 0) return { strength: 0, label: '', color: '' };
-  if (password.length < 6) return { strength: 1, label: 'Weak', color: 'text-red-500' };
-  if (password.length < 8) return { strength: 2, label: 'Fair', color: 'text-yellow-500' };
+  if (password.length < 8) return { strength: 1, label: 'Weak', color: 'text-red-500' };
   if (password.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/)) return { strength: 3, label: 'Strong', color: 'text-green-500' };
   return { strength: 2, label: 'Good', color: 'text-blue-500' };
  };
@@ -104,28 +103,6 @@ export default function SignupPage() {
         <p className="text-sm text-red-600">{error}</p>
        </div>
       )}
-
-      {/* Name Field */}
-      <div>
-       <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
-        Full name
-       </label>
-       <div className="relative">
-        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-         <User className="h-5 w-5 text-gray-400" />
-        </div>
-        <input
-         id="name"
-         name="name"
-         type="text"
-         required
-         className="input pl-10"
-         placeholder="Enter your full name"
-         value={formData.name}
-         onChange={handleInputChange}
-        />
-       </div>
-      </div>
 
       {/* Email Field */}
       <div>
@@ -294,7 +271,11 @@ export default function SignupPage() {
 
      {/* Social Login */}
      <div className="mt-6">
-      <button className="w-full btn-secondary">
+      <button 
+       type="button"
+       onClick={() => window.location.href = '/api/auth/google?callbackUrl=/dashboard'}
+       className="w-full btn-secondary"
+      >
        <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="currentColor">
         <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
         <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>

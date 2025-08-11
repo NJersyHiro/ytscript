@@ -7,18 +7,22 @@ import axios from 'axios';
 interface User {
   id: string;
   email: string;
-  name?: string;
-  plan: 'free' | 'pro';
+  plan: 'FREE' | 'PRO' | 'ENTERPRISE';
   createdAt: string;
-  emailVerified: boolean;
+  isEmailVerified: boolean;
+  name?: string;
+  picture?: string;
+  provider?: string;
   stripeCustomerId?: string;
+  monthlyUsage?: number;
+  totalUsage?: number;
 }
 
 interface AuthContextType {
   user: User | null;
   loading: boolean;
   login: (email: string, password: string) => Promise<void>;
-  signup: (email: string, password: string, name?: string) => Promise<void>;
+  signup: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
   forgotPassword: (email: string) => Promise<void>;
   resetPassword: (token: string, password: string) => Promise<void>;
@@ -50,6 +54,27 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const checkAuth = async () => {
     try {
+      // First check for OAuth session
+      const oauthResponse = await fetch('/api/auth/session');
+      const oauthData = await oauthResponse.json();
+      
+      if (oauthData.user) {
+        // OAuth user is logged in
+        setUser({
+          id: oauthData.user.id,
+          email: oauthData.user.email,
+          name: oauthData.user.name,
+          picture: oauthData.user.picture,
+          provider: oauthData.user.provider,
+          plan: 'FREE', // Default plan for OAuth users
+          createdAt: new Date().toISOString(),
+          isEmailVerified: true, // OAuth users are considered verified
+        });
+        setLoading(false);
+        return;
+      }
+      
+      // Fall back to regular token auth
       const token = localStorage.getItem('token');
       if (!token) {
         setLoading(false);
@@ -58,7 +83,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
       const response = await axios.get(`${API_URL}/api/auth/me`);
-      setUser(response.data.user);
+      setUser(response.data.data.user);
     } catch (error) {
       console.error('Auth check failed:', error);
       localStorage.removeItem('token');
@@ -75,48 +100,55 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         password,
       });
 
-      const { token, user } = response.data;
+      const { accessToken, refreshToken, user } = response.data.data;
       
-      localStorage.setItem('token', token);
-      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      localStorage.setItem('token', accessToken);
+      localStorage.setItem('refreshToken', refreshToken);
+      axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
       setUser(user);
       
       router.push('/dashboard');
     } catch (error: any) {
-      throw new Error(error.response?.data?.error || 'Login failed');
+      throw new Error(error.response?.data?.error?.message || 'Login failed');
     }
   };
 
-  const signup = async (email: string, password: string, name?: string) => {
+  const signup = async (email: string, password: string) => {
     try {
       const response = await axios.post(`${API_URL}/api/auth/register`, {
         email,
         password,
-        name,
       });
 
-      const { token, user } = response.data;
+      const { accessToken, refreshToken, user } = response.data.data;
       
-      localStorage.setItem('token', token);
-      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      localStorage.setItem('token', accessToken);
+      localStorage.setItem('refreshToken', refreshToken);
+      axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
       setUser(user);
       
       router.push('/dashboard');
     } catch (error: any) {
-      throw new Error(error.response?.data?.error || 'Signup failed');
+      throw new Error(error.response?.data?.error?.message || 'Signup failed');
     }
   };
 
   const logout = async () => {
-    // Since we don't have a backend yet, just clear local state
-    // When backend is available, uncomment the API call below:
-    // try {
-    //   await axios.post(`${API_URL}/api/auth/logout`);
-    // } catch (error) {
-    //   console.error('Logout error:', error);
-    // }
+    try {
+      // Try OAuth logout first
+      await fetch('/api/auth/logout', { method: 'POST' });
+      
+      // Also try regular logout for token-based users
+      const token = localStorage.getItem('token');
+      if (token) {
+        await axios.post(`${API_URL}/api/auth/logout`);
+      }
+    } catch (error) {
+      console.error('Logout error:', error);
+    }
     
     localStorage.removeItem('token');
+    localStorage.removeItem('refreshToken');
     delete axios.defaults.headers.common['Authorization'];
     setUser(null);
     router.push('/');

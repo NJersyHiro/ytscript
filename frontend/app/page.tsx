@@ -5,11 +5,13 @@ import TranscriptExtractor from '@/components/TranscriptExtractor';
 import MobileMenu from '@/components/MobileMenu';
 import Link from 'next/link';
 import { useAuth } from '@/contexts/AuthContext';
+import { useRouter } from 'next/navigation';
 import { Video, Zap, Globe, FileText, Bot, BarChart3, Cloud, ArrowRight, CheckCircle, Star } from 'lucide-react';
 
 export default function Home() {
  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
  const { user } = useAuth();
+ const router = useRouter();
 
  const toggleMobileMenu = () => {
   setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -46,11 +48,23 @@ export default function Home() {
       <nav className="hidden md:flex items-center gap-8">
        <a href="#features" className="btn-ghost">Features</a>
        <a href="#pricing" className="btn-ghost">Pricing</a>
-       <a href="/dashboard" className="btn-ghost">Dashboard</a>
-       <button onClick={scrollToExtractor} className="btn-primary">
-        Get Started
-        <ArrowRight className="w-4 h-4 ml-1" />
-       </button>
+       {user ? (
+        <>
+         {user && <a href="/dashboard" className="btn-ghost">Dashboard</a>}
+         <button onClick={() => router.push('/dashboard')} className="btn-primary">
+          Go to Dashboard
+          <ArrowRight className="w-4 h-4 ml-1" />
+         </button>
+        </>
+       ) : (
+        <>
+         <Link href="/login" className="btn-ghost">Login</Link>
+         <Link href="/signup" className="btn-primary flex items-center gap-1">
+          Sign Up Free
+          <ArrowRight className="w-4 h-4" />
+         </Link>
+        </>
+       )}
       </nav>
       <div className="flex items-center gap-4 md:hidden">
        <MobileMenu isOpen={isMobileMenuOpen} onToggle={toggleMobileMenu} />

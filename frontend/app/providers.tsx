@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { AuthProvider } from '@/contexts/AuthContext';
 import { ToastProvider } from '@/contexts/ToastContext';
+// import AuthSessionProvider from '@/components/SessionProvider';
 
 export function Providers({ children }: { children: React.ReactNode }) {
   const [isReady, setIsReady] = useState(false);

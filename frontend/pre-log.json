@@ -1,0 +1,11 @@
+{
+  "session_id": "4af2b619-b186-46d4-a5a8-20858d8492f1",
+  "transcript_path": "/home/th1kh/.claude/projects/-home-th1kh-ytscript/4af2b619-b186-46d4-a5a8-20858d8492f1.jsonl",
+  "cwd": "/home/th1kh/ytscript/frontend",
+  "hook_event_name": "PreToolUse",
+  "tool_name": "Bash",
+  "tool_input": {
+    "command": "git add .",
+    "description": "Stage all OAuth implementation files"
+  }
+}

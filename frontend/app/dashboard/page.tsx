@@ -14,8 +14,9 @@ import {
  Zap
 } from 'lucide-react';
 import Link from 'next/link';
+import ProtectedRoute from '@/components/ProtectedRoute';
 
-export default function Dashboard() {
+function DashboardContent() {
  const { user, logout } = useAuth();
  const [timePeriod, setTimePeriod] = useState<'day' | 'week' | 'month'>('month');
 
@@ -48,8 +49,7 @@ export default function Dashboard() {
       <div className="flex items-center gap-4">
        <div className="text-right">
         <div className="text-sm text-gray-500">Signed in as</div>
-        <div className="font-semibold text-gray-900">{user?.name || 'Demo User'}</div>
-        <div className="text-xs text-gray-500">{user?.email || 'demo@example.com'}</div>
+        <div className="font-semibold text-gray-900">{user?.email || 'demo@example.com'}</div>
        </div>
        <button
         onClick={handleLogout}
@@ -68,7 +68,7 @@ export default function Dashboard() {
     {/* Welcome Section */}
     <div className="mb-8">
      <h2 className="text-3xl font-bold text-gray-900 mb-2">
-      Welcome back, {user?.name?.split(' ')[0] || 'Demo'}!
+      Welcome back!
      </h2>
      <p className="text-gray-600">
       Monitor your usage and manage your account
@@ -253,4 +253,12 @@ export default function Dashboard() {
    </main>
   </div>
  );
+}
+
+export default function Dashboard() {
+  return (
+    <ProtectedRoute>
+      <DashboardContent />
+    </ProtectedRoute>
+  );
 }

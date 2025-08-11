@@ -86,16 +86,16 @@ export default function TranscriptExtractor() {
 
  const handleExtract = async () => {
   if (!url.trim()) {
-   showWarning('Missing URL', 'Please enter a YouTube URL');
    setError('Please enter a YouTube URL');
+   showWarning('Missing URL', 'Please enter a YouTube URL');
    return;
   }
 
   // Basic YouTube URL validation
   const youtubeRegex = /^(https?:\/\/)?(www\.)?(youtube\.com\/watch\?v=|youtu\.be\/)[\w-]+/;
   if (!youtubeRegex.test(url.trim())) {
-   showError('Invalid URL', 'Please enter a valid YouTube URL');
    setError('Please enter a valid YouTube URL');
+   showError('Invalid URL', 'Please enter a valid YouTube URL');
    return;
   }
 

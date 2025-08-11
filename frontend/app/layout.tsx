@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
@@ -18,6 +18,14 @@ export const metadata: Metadata = {
   title: "YTScript - YouTube Transcript Extractor & AI Analyzer",
   description: "Extract, convert, and analyze YouTube transcripts with AI-powered summaries. Support for multiple formats including PDF, DOCX, and SRT.",
   keywords: "YouTube transcript, video to text, AI summary, subtitle extractor",
+  icons: {
+    icon: [
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+      { url: '/favicon.ico', sizes: 'any' }
+    ],
+    apple: '/apple-touch-icon.png',
+  },
+  manifest: '/site.webmanifest',
   openGraph: {
     title: "YTScript - YouTube Transcript Extractor",
     description: "Extract and analyze YouTube transcripts with AI",
@@ -25,6 +33,12 @@ export const metadata: Metadata = {
     siteName: "YTScript",
     type: "website",
   },
+};
+
+export const viewport: Viewport = {
+  themeColor: '#FF0000',
+  width: 'device-width',
+  initialScale: 1,
 };
 
 export default function RootLayout({
