@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/contexts/AuthContext";
-import { ThemeProvider } from "@/contexts/ThemeContext";
 import { ToastProvider } from "@/contexts/ToastContext";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 
@@ -37,10 +36,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.variable} ${jetbrainsMono.variable} antialiased min-h-screen bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800`}
+        className={`${inter.variable} ${jetbrainsMono.variable} antialiased min-h-screen bg-gradient-to-b from-gray-50 to-white`}
       >
-        <ThemeProvider>
-          <ToastProvider>
+        <ToastProvider>
             <AuthProvider>
               <ErrorBoundary>
                 <div className="flex flex-col min-h-screen">
@@ -50,8 +48,7 @@ export default function RootLayout({
                 </div>
               </ErrorBoundary>
             </AuthProvider>
-          </ToastProvider>
-        </ThemeProvider>
+        </ToastProvider>
       </body>
     </html>
   );

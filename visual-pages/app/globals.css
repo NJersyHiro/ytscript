@@ -8,11 +8,11 @@
   }
   
   .btn-secondary {
-    @apply bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100 hover:bg-gray-200 dark:hover:bg-gray-700 px-6 py-3 rounded-lg font-semibold transition-colors;
+    @apply bg-gray-100 text-gray-900 hover:bg-gray-200 px-6 py-3 rounded-lg font-semibold transition-colors;
   }
   
   .btn-ghost {
-    @apply text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-800 px-4 py-2 rounded-lg font-medium transition-colors;
+    @apply text-gray-600 hover:text-gray-900 hover:bg-gray-100 px-4 py-2 rounded-lg font-medium transition-colors;
   }
   
   .btn-gradient {
@@ -20,19 +20,27 @@
   }
 
   .card {
-    @apply bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-sm hover:shadow-md transition-shadow;
+    @apply bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-shadow;
   }
   
   .card-hover {
-    @apply card hover:shadow-lg hover:border-gray-300 dark:hover:border-gray-600 hover:scale-[1.01] transition-all duration-200;
+    @apply card hover:shadow-lg hover:border-gray-300 hover:scale-[1.01] transition-all duration-200;
   }
 
   .input {
-    @apply w-full px-4 py-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors text-gray-900 dark:text-gray-100;
+    @apply w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors text-gray-900;
   }
 
   .gradient-text {
     @apply bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent font-bold;
+  }
+
+  .gradient-hero {
+    @apply bg-gradient-to-r from-blue-600 to-purple-600;
+  }
+
+  .gradient-cta {
+    @apply bg-gradient-to-r from-electric-600 to-neon-purple;
   }
 
   .container-main {
@@ -44,7 +52,15 @@
   }
 
   .glass-effect {
-    @apply bg-white/80 dark:bg-gray-900/80 backdrop-blur-lg border border-white/20 dark:border-gray-800/20;
+    @apply bg-white/80 backdrop-blur-lg border border-white/20;
+  }
+
+  .electric-glow {
+    @apply shadow-lg shadow-blue-500/25;
+  }
+
+  .shadow-electric {
+    @apply shadow-lg shadow-electric-500/30;
   }
 }
 
@@ -93,6 +109,13 @@
   }
   
   .focus-visible {
-    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-gray-900;
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2;
   }
+}
+
+/* Custom Colors */
+:root {
+  --electric-500: #3b82f6;
+  --electric-600: #2563eb;
+  --neon-purple: #8b5cf6;
 }
