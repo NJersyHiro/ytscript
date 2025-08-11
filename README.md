@@ -1,165 +1,138 @@
-# YTScript - YouTube Transcript Extractor 🎥
+# YTScript - YouTube Transcript Extractor & AI Analyzer
 
-Extract, convert, and analyze YouTube transcripts with AI-powered summaries. Built with Next.js 14, TypeScript, and Tailwind CSS.
+A Next.js web application that extracts transcripts from YouTube videos, provides AI-powered summaries, and exports in multiple formats.
 
-![YTScript Homepage](./VISUAL_OVERVIEW.md)
+## 🚀 Features
 
-## ✨ Features
+- **YouTube Transcript Extraction**: Extract transcripts from any YouTube video instantly
+- **Multi-Language Support**: Support for 10+ languages including English, Japanese, Spanish, French
+- **Multiple Export Formats**: Export to TXT, SRT, JSON, PDF, DOCX, XLSX
+- **AI-Powered Summaries**: Generate intelligent summaries using GPT-4 (Pro feature)
+- **Batch Processing**: Process entire channels and playlists (Pro feature)
+- **Cloud Storage**: 90-day storage with search and organization (Pro feature)
 
-### Free Plan
-- 🔥 **Unlimited single video extraction** - Process as many videos as you want
-- 📝 **Multiple export formats** - TXT, SRT, JSON
-- 🌍 **Multi-language support** - 10+ languages including English, Japanese, Spanish, French
-- 🚀 **Lightning fast** - Sub-10 second processing with 99.9% accuracy
-- 🆓 **No registration required** - Start using immediately
+## 📦 Tech Stack
 
-### Pro Plan ($20/month)
-- ✅ Everything in Free plan
-- 🤖 **AI-powered summaries** - GPT-4 powered intelligent video summaries
-- 📊 **Batch processing** - Process entire channels and playlists
-- 📄 **Premium formats** - PDF, DOCX, XLSX exports
-- ☁️ **Cloud storage** - 90-day transcript storage with search
-- ⚡ **Priority processing** - Skip the queue
+- **Frontend**: Next.js 14.2.5, React 18, TypeScript
+- **Styling**: Tailwind CSS, Framer Motion
+- **State Management**: Context API, Zustand
+- **Forms**: React Hook Form with Zod validation
+- **Payments**: Stripe integration
+- **Charts**: Recharts
+- **Testing**: Jest, React Testing Library, MSW
 
-## 🚀 Getting Started
+## 🛠️ Installation
 
 ### Prerequisites
-- Node.js 18+ 
+
+- Node.js >= 18.17.0
 - npm or yarn
 
-### Installation
+### Setup
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/NJersyHiro/ytscript.git
-cd ytscript
+git clone https://github.com/yourusername/ytscript.git
+cd ytscript/visual-pages
 ```
 
-2. Navigate to the app directory:
-```bash
-cd visual-pages
-```
-
-3. Install dependencies:
+2. Install dependencies:
 ```bash
 npm install
 ```
 
-4. Set up environment variables:
+3. Configure environment variables:
 ```bash
-# Create .env.local file
-NEXT_PUBLIC_API_URL=http://localhost:5000
+cp .env.example .env.local
+# Edit .env.local with your configuration
 ```
 
-5. Run the development server:
+4. Run the development server:
 ```bash
 npm run dev
 ```
 
-6. Open [http://localhost:3000](http://localhost:3000) in your browser
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-## 🏗️ Tech Stack
+## 📝 Development Status
 
-- **Frontend Framework**: Next.js 14+ with App Router
-- **Language**: TypeScript
-- **Styling**: Tailwind CSS (light theme only)
-- **Authentication**: Google OAuth integration
-- **Icons**: Lucide React
-- **Fonts**: Inter & JetBrains Mono
+### ✅ Phase 1: Foundation Setup (COMPLETED)
+- [x] Initialize Next.js project with TypeScript
+- [x] Configure Tailwind CSS
+- [x] Set up environment variables
+- [x] Create context providers (AuthContext, ToastContext)
+- [x] Fix layout and navigation
+- [x] Development server running successfully
+
+### 🔄 Phase 2: Core Features (IN PROGRESS)
+- [ ] Set up API mocking with MSW
+- [ ] Enhance TranscriptExtractor component
+- [ ] Implement results display
+- [ ] Add loading states and error handling
+
+### 📋 Upcoming Phases
+- Phase 3: Authentication System
+- Phase 4: Landing Page & UI Polish
+- Phase 5: Dashboard & User Features
+- Phase 6: Pro Features & Payments
+- Phase 7: Quality, Testing & Deployment
+
+## 🔧 Available Scripts
+
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run start` - Start production server
+- `npm run lint` - Run ESLint
+- `npm run type-check` - Run TypeScript type checking
+- `npm run format` - Format code with Prettier
+- `npm run test` - Run tests in watch mode
+- `npm run test:ci` - Run tests in CI mode
 
 ## 📁 Project Structure
 
 ```
-ytscript/
-├── visual-pages/           # Next.js application
-│   ├── app/               # App router pages
-│   │   ├── page.tsx      # Landing page
-│   │   ├── login/        # Authentication
-│   │   ├── signup/       # User registration
-│   │   ├── dashboard/    # User dashboard
-│   │   ├── pricing/      # Pricing plans
-│   │   └── ...
-│   ├── components/        # Reusable components
-│   │   ├── TranscriptExtractor.tsx
-│   │   ├── Toast.tsx
-│   │   └── ...
-│   ├── contexts/          # React contexts
-│   │   ├── AuthContext.tsx
-│   │   └── ToastContext.tsx
-│   └── lib/              # Utilities
-└── README.md
+visual-pages/
+├── app/                 # Next.js app directory
+│   ├── layout.tsx      # Root layout with providers
+│   ├── page.tsx        # Homepage
+│   ├── globals.css     # Global styles
+│   └── dashboard/      # Dashboard route
+├── components/          # React components
+│   ├── TranscriptExtractor.tsx
+│   ├── Toast.tsx
+│   ├── ErrorBoundary.tsx
+│   └── MobileMenu.tsx
+├── contexts/           # React contexts
+│   ├── AuthContext.tsx
+│   └── ToastContext.tsx
+├── lib/                # Utility functions
+├── types/              # TypeScript types
+└── public/             # Static assets
 ```
 
-## 🎨 Features Overview
+## 🚦 API Endpoints
 
-### Homepage
-- Hero section with gradient animations
-- Main transcript extractor widget
-- Feature showcase with bento grid layout
-- Pricing comparison
-- Trust indicators and social proof
+The frontend expects a backend API at `http://localhost:5000` with the following endpoints:
 
 ### Authentication
-- Email/password login
-- Google OAuth integration
-- Secure session management
-- Protected routes
+- POST `/api/auth/login`
+- POST `/api/auth/register`
+- POST `/api/auth/forgot-password`
+- POST `/api/auth/reset-password`
 
-### Dashboard
-- Usage statistics
-- Recent extraction history
-- Subscription management
-- User settings
+### Core Features
+- POST `/api/extract` - Extract single video transcript
+- POST `/api/extract/batch` - Batch process videos
 
-## 🔧 Development
+### User Management
+- GET/PUT `/api/user/profile`
+- GET `/api/user/stats`
 
-### Available Scripts
-
-```bash
-# Development server
-npm run dev
-
-# Production build
-npm run build
-
-# Start production server
-npm start
-
-# Linting
-npm run lint
-```
-
-### Key Components
-
-- **TranscriptExtractor**: Main extraction interface with format selection
-- **AuthContext**: Authentication state management
-- **ToastContext**: Notification system with toast state management
-- **Toast**: UI components for displaying toast notifications
-
-## 🚢 Deployment
-
-The app can be deployed to any platform that supports Next.js:
-
-- Vercel (recommended)
-- Netlify
-- Railway
-- AWS Amplify
-- Self-hosted
-
-## 📝 API Integration
-
-The frontend expects a backend API at `NEXT_PUBLIC_API_URL` with the following endpoints:
-
-- `/api/extract` - Extract transcript from YouTube URL
-- `/api/auth/login` - User authentication
-- `/api/auth/register` - User registration
-- `/api/auth/logout` - Logout
-- `/api/profile` - User profile
-- `/api/subscription` - Subscription management
+### Subscription
+- GET `/api/subscription`
+- POST `/api/subscription/upgrade`
 
 ## 🤝 Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
 
 1. Fork the repository
 2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
@@ -169,21 +142,14 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the MIT License.
 
-## 🙏 Acknowledgments
+## 🔗 Links
 
-- Built with [Next.js](https://nextjs.org/)
-- Styled with [Tailwind CSS](https://tailwindcss.com/)
-- Icons from [Lucide](https://lucide.dev/)
-- Fonts from [Google Fonts](https://fonts.google.com/)
-
-## 📧 Contact
-
-For questions or support, please open an issue on GitHub.
+- [Linear Project Board](https://linear.app/ytscript)
+- [API Documentation](./docs/API.md)
+- [Implementation Plan](./IMPLEMENTATION_PLAN_V2.md)
 
 ---
 
-**Live Demo**: Coming soon!
-
-**Repository**: [https://github.com/NJersyHiro/ytscript](https://github.com/NJersyHiro/ytscript)
+**Current Development Phase**: Phase 2 - Core Features Implementation

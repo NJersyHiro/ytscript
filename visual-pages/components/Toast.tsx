@@ -1,21 +1,15 @@
 'use client';
 
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState } from 'react';
 import { X, CheckCircle, AlertCircle, Info, AlertTriangle } from 'lucide-react';
 
 export type ToastType = 'success' | 'error' | 'warning' | 'info';
 
-export interface ToastMessage {
- id: string;
+interface ToastProps {
  type: ToastType;
  title: string;
  message?: string;
- duration?: number;
-}
-
-interface ToastProps {
- toast: ToastMessage;
- onDismiss: (id: string) => void;
+ onClose: () => void;
 }
 
 const icons = {
@@ -39,69 +33,49 @@ const iconColors = {
  info: 'text-blue-600',
 };
 
-export function Toast({ toast, onDismiss }: ToastProps) {
+export default function Toast({ type, title, message, onClose }: ToastProps) {
  const [isExiting, setIsExiting] = useState(false);
- const Icon = icons[toast.type];
+ const Icon = icons[type];
 
- const handleDismiss = useCallback(() => {
+ const handleClose = () => {
   setIsExiting(true);
   setTimeout(() => {
-   onDismiss(toast.id);
+   onClose();
   }, 300);
- }, [toast.id, onDismiss]);
+ };
 
  useEffect(() => {
-  if (toast.duration && toast.duration > 0) {
-   const timer = setTimeout(() => {
-    handleDismiss();
-   }, toast.duration);
+  const timer = setTimeout(() => {
+   handleClose();
+  }, 5000);
 
-   return () => clearTimeout(timer);
-  }
- }, [toast.duration, handleDismiss]);
+  return () => clearTimeout(timer);
+ }, []);
 
  return (
   <div
    className={`
-    ${colors[toast.type]}
+    ${colors[type]}
     border rounded-lg shadow-lg p-4 mb-3 flex items-start gap-3
-    transition-all duration-300 transform
+    transition-all duration-300 transform min-w-[320px]
     ${isExiting ? 'opacity-0 translate-x-full' : 'opacity-100 translate-x-0'}
-    animate-slide-in-right
    `}
   >
-   <Icon className={`w-5 h-5 flex-shrink-0 mt-0.5 ${iconColors[toast.type]}`} />
+   <Icon className={`w-5 h-5 flex-shrink-0 mt-0.5 ${iconColors[type]}`} />
    
    <div className="flex-1">
-    <h4 className="font-semibold">{toast.title}</h4>
-    {toast.message && (
-     <p className="text-sm mt-1 opacity-90">{toast.message}</p>
+    <h4 className="font-semibold">{title}</h4>
+    {message && (
+     <p className="text-sm mt-1 opacity-90">{message}</p>
     )}
    </div>
    
    <button
-    onClick={handleDismiss}
+    onClick={handleClose}
     className="flex-shrink-0 p-1 hover:bg-gray-200 rounded transition-colors"
    >
     <X className="w-4 h-4" />
    </button>
-  </div>
- );
-}
-
-interface ToastContainerProps {
- toasts: ToastMessage[];
- onDismiss: (id: string) => void;
-}
-
-export function ToastContainer({ toasts, onDismiss }: ToastContainerProps) {
- return (
-  <div className="fixed top-4 right-4 z-50 max-w-sm w-full pointer-events-none">
-   <div className="pointer-events-auto">
-    {toasts.map((toast) => (
-     <Toast key={toast.id} toast={toast} onDismiss={onDismiss} />
-    ))}
-   </div>
   </div>
  );
 }

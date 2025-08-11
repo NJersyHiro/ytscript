@@ -40,7 +40,7 @@
   }
 
   .gradient-cta {
-    @apply bg-gradient-to-r from-electric-600 to-neon-purple;
+    @apply bg-gradient-to-r from-blue-600 to-purple-600;
   }
 
   .container-main {
@@ -60,7 +60,7 @@
   }
 
   .shadow-electric {
-    @apply shadow-lg shadow-electric-500/30;
+    @apply shadow-lg shadow-blue-500/30;
   }
 }
 

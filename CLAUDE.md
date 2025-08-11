@@ -4,97 +4,73 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-YTScript is a YouTube transcript extractor and AI analyzer web application built with Next.js. It allows users to extract transcripts from YouTube videos, convert them to multiple formats, and generate AI-powered summaries using GPT-4.
+YTScript is a Next.js application for extracting YouTube transcripts with AI-powered analysis. The project uses React with TypeScript for the frontend and includes features for transcript extraction, format conversion, and AI summaries.
 
-## Architecture
+## Project Structure
 
-### Tech Stack
-- **Frontend**: Next.js 14+ with App Router, React, TypeScript
-- **Styling**: Tailwind CSS (light theme only)
-- **Fonts**: Inter and JetBrains Mono from Google Fonts
-- **State Management**: React Context API for authentication and toast notifications
+- `/visual-pages/` - Main Next.js application directory
+  - `/app/` - Next.js app router pages (dashboard, login, signup, terms)
+  - `/components/` - React components (TranscriptExtractor, Toast, ErrorBoundary, MobileMenu)
 
-### Project Structure
-```
-visual-pages/
-├── app/                    # Next.js App Router pages
-│   ├── layout.tsx         # Root layout with providers
-│   ├── page.tsx           # Landing page with TranscriptExtractor
-│   ├── dashboard/         # Protected user dashboard
-│   ├── login/             # Authentication page
-│   ├── signup/            # User registration
-│   ├── extract/           # Transcript extraction page
-│   ├── batch/             # Batch processing page
-│   ├── billing/           # Subscription management
-│   └── ...
-├── components/            # Reusable React components
-│   ├── TranscriptExtractor.tsx  # Main extraction interface
-│   ├── Toast.tsx                # Toast notification UI components
-│   └── ...
-├── contexts/              # React Context providers
-│   ├── AuthContext.tsx    # Authentication state & logic
-│   └── ToastContext.tsx   # Toast notification state management
-└── globals.css            # Global styles & Tailwind imports
-```
+## Development Setup and Commands
 
-### Core Components
-
-**TranscriptExtractor**: Main component handling video transcript extraction with support for multiple formats (TXT, SRT, JSON, PDF, DOCX, XLSX) and AI summaries.
-
-**AuthContext**: Manages authentication state, protected routes, token refresh, and user session. Protected routes include `/dashboard`, `/extract`, `/history`, `/billing`, `/settings`.
-
-**ToastContext & Toast Components**: The notification system uses a Context/UI separation pattern where ToastContext manages state and Toast.tsx provides the visual components.
-
-**API Integration**: The app expects an API backend at `process.env.NEXT_PUBLIC_API_URL` (defaults to `http://localhost:5000`) with endpoints for:
-- `/api/extract` - Extract transcript from YouTube URL
-- Authentication endpoints (login, register, logout, profile, refresh)
-- Stripe integration for Pro subscriptions
-
-## Development Commands
-
-Since there's no package.json in the current directory, you'll need to navigate to the visual-pages directory and set up the project:
+Since there is no package.json in the root, development should be run from the `visual-pages` directory:
 
 ```bash
 cd visual-pages
-
-# Install dependencies (assuming npm/yarn is used)
+# Install dependencies (if package.json exists)
 npm install
-
 # Run development server
 npm run dev
-
-# Build for production
-npm run build
-
-# Start production server
-npm start
+# or
+next dev
 ```
 
-## Key Features & User Plans
+## Architecture Overview
 
-### Free Plan
-- Unlimited single video extraction
-- TXT, Markdown, SRT, JSON export formats
-- No registration required
+### Frontend Architecture
+- **Framework**: Next.js 14+ with App Router
+- **Styling**: Tailwind CSS with custom gradient utilities
+- **Authentication**: Context-based auth system with AuthContext
+- **State Management**: React Context API (AuthContext, ToastContext)
+- **UI Components**: Custom component library with glass effects and gradient styling
 
-### Pro Plan ($20/month)
-- Everything in Free plan
-- Channel & playlist batch processing
-- AI-powered summaries with GPT-4
-- Premium export formats (PDF, DOCX, XLSX)
-- 90-day cloud storage
-- Priority processing
+### Key Components
+
+**TranscriptExtractor** (`components/TranscriptExtractor.tsx`):
+- Main feature component handling YouTube URL input
+- Multi-format export (TXT, SRT, JSON, PDF, DOCX, XLSX)
+- Language selection support (10+ languages)
+- AI summary integration (Pro feature)
+- Premium vs free feature differentiation
+
+**Context Providers**:
+- `AuthContext`: User authentication and plan management
+- `ToastContext`: Global notification system
+
+### API Integration
+- API endpoint: `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/extract`
+- POST request with URL, language, formats, and summary options
+- Handles both free and premium format responses
+
+### Styling Patterns
+- Glass morphism effects with backdrop blur
+- Custom gradients (gradient-hero, gradient-cta, gradient-text)
+- Electric glow effects for premium features
+- Responsive design with mobile-first approach
+
+## Environment Variables
+
+Required environment variables:
+- `NEXT_PUBLIC_API_URL` - Backend API URL (defaults to http://localhost:5000)
+
+## Key Features
+
+- **Free Features**: Single video extraction, TXT/SRT/JSON export, multi-language support
+- **Pro Features**: AI summaries (GPT-4), batch processing, PDF/DOCX/XLSX export, cloud storage
 
 ## Important Notes
 
-- The app uses absolute imports with `@/` prefix for components, contexts, lib, and hooks
-- Protected routes automatically redirect to `/login` if not authenticated
-- The Pro subscription upgrade redirects to the pricing page
-- The app uses a light theme only (dark mode functionality has been removed)
-- All API calls should handle both success and error responses using the `isApiError` utility
-- The app expects certain API services (`@/lib/api` and `@/hooks/useStripe`) that are not present in the current codebase - these would need to be implemented
-
-## Missing Dependencies
-
-The following modules are imported but not present in the codebase and need to be implemented:
-- `@/lib/api` - API service module with methods like `login`, `register`, `logout`, `getProfile`, `refreshToken`
+- The project appears to be missing core configuration files (package.json, tsconfig.json, next.config.js)
+- Context providers are referenced but their implementation files are not present
+- The backend API service is expected to run on port 5000

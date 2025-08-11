@@ -11,6 +11,40 @@ module.exports = {
         sans: ["var(--font-inter)", "Inter", "system-ui", "sans-serif"],
         mono: ["var(--font-jetbrains-mono)", "JetBrains Mono", "monospace"],
       },
+      colors: {
+        electric: {
+          50: '#e6f3ff',
+          100: '#b3dcff',
+          200: '#80c5ff',
+          300: '#4daeff',
+          400: '#1a97ff',
+          500: '#0080ff',
+          600: '#0066cc',
+          700: '#004d99',
+          800: '#003366',
+          900: '#001a33',
+        },
+        'neon-purple': '#9945ff',
+      },
+      animation: {
+        'fade-in': 'fadeIn 0.5s ease-in-out',
+        'slide-up': 'slideUp 0.5s ease-out',
+        'slide-in-right': 'slideInRight 0.3s ease-out',
+      },
+      keyframes: {
+        fadeIn: {
+          '0%': { opacity: '0' },
+          '100%': { opacity: '1' },
+        },
+        slideUp: {
+          '0%': { transform: 'translateY(10px)', opacity: '0' },
+          '100%': { transform: 'translateY(0)', opacity: '1' },
+        },
+        slideInRight: {
+          '0%': { transform: 'translateX(100%)', opacity: '0' },
+          '100%': { transform: 'translateX(0)', opacity: '1' },
+        },
+      },
     },
   },
   plugins: [],
