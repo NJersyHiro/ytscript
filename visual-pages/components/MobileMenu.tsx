@@ -1,0 +1,101 @@
+'use client';
+
+
+import Link from 'next/link';
+import { X, Menu, ArrowRight } from 'lucide-react';
+
+interface MobileMenuProps {
+  isOpen: boolean;
+  onToggle: () => void;
+}
+
+export default function MobileMenu({ isOpen, onToggle }: MobileMenuProps) {
+  return (
+    <>
+      {/* Mobile menu button */}
+      <button 
+        onClick={onToggle}
+        className="md:hidden btn-ghost p-2"
+        aria-label="Toggle menu"
+      >
+        {isOpen ? (
+          <X className="w-6 h-6" />
+        ) : (
+          <Menu className="w-6 h-6" />
+        )}
+      </button>
+
+      {/* Mobile menu overlay */}
+      {isOpen && (
+        <div className="fixed inset-0 z-50 md:hidden">
+          {/* Backdrop */}
+          <div 
+            className="fixed inset-0 bg-black bg-opacity-50"
+            onClick={onToggle}
+          />
+          
+          {/* Menu panel */}
+          <div className="fixed top-0 right-0 h-full w-80 bg-white dark:bg-gray-900 shadow-xl transform transition-transform duration-300 ease-in-out">
+            <div className="flex flex-col h-full">
+              {/* Header */}
+              <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-800">
+                <h2 className="text-xl font-bold gradient-text">YTScript</h2>
+                <button 
+                  onClick={onToggle}
+                  className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800"
+                  aria-label="Close menu"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+
+              {/* Navigation */}
+              <nav className="flex-1 p-6">
+                <ul className="space-y-4">
+                  <li>
+                    <a 
+                      href="#features" 
+                      onClick={onToggle}
+                      className="block px-4 py-3 text-lg font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
+                    >
+                      Features
+                    </a>
+                  </li>
+                  <li>
+                    <a 
+                      href="#pricing" 
+                      onClick={onToggle}
+                      className="block px-4 py-3 text-lg font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
+                    >
+                      Pricing
+                    </a>
+                  </li>
+                  <li>
+                    <Link 
+                      href="/dashboard" 
+                      onClick={onToggle}
+                      className="block px-4 py-3 text-lg font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
+                    >
+                      Dashboard
+                    </Link>
+                  </li>
+                </ul>
+              </nav>
+
+              {/* CTA Button */}
+              <div className="p-6 border-t border-gray-200 dark:border-gray-800">
+                <button 
+                  onClick={onToggle}
+                  className="btn-primary w-full text-center"
+                >
+                  Get Started
+                  <ArrowRight className="w-4 h-4 ml-2" />
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
+  );
+}
