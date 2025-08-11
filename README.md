@@ -62,7 +62,7 @@ npm run dev
 
 - **Frontend Framework**: Next.js 14+ with App Router
 - **Language**: TypeScript
-- **Styling**: Tailwind CSS with custom theme
+- **Styling**: Tailwind CSS (light theme only)
 - **Authentication**: Google OAuth integration
 - **Icons**: Lucide React
 - **Fonts**: Inter & JetBrains Mono
@@ -81,11 +81,10 @@ ytscript/
 │   │   └── ...
 │   ├── components/        # Reusable components
 │   │   ├── TranscriptExtractor.tsx
-│   │   ├── ThemeToggle.tsx
+│   │   ├── Toast.tsx
 │   │   └── ...
 │   ├── contexts/          # React contexts
 │   │   ├── AuthContext.tsx
-│   │   ├── ThemeContext.tsx
 │   │   └── ToastContext.tsx
 │   └── lib/              # Utilities
 └── README.md
@@ -134,8 +133,8 @@ npm run lint
 
 - **TranscriptExtractor**: Main extraction interface with format selection
 - **AuthContext**: Authentication state management
-- **ThemeContext**: Dark/light mode support
-- **ToastContext**: Notification system
+- **ToastContext**: Notification system with toast state management
+- **Toast**: UI components for displaying toast notifications
 
 ## 🚢 Deployment
 

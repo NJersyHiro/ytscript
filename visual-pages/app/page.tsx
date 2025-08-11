@@ -5,34 +5,24 @@ import TranscriptExtractor from '@/components/TranscriptExtractor';
 import MobileMenu from '@/components/MobileMenu';
 import Link from 'next/link';
 import { useAuth } from '@/contexts/AuthContext';
-import useStripe from '@/hooks/useStripe';
 import { Video, Zap, Globe, FileText, Bot, BarChart3, Cloud, ArrowRight, CheckCircle, Star } from 'lucide-react';
 
 export default function Home() {
  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
  const { user } = useAuth();
- const { createCheckoutSession, loading } = useStripe();
 
  const toggleMobileMenu = () => {
   setIsMobileMenuOpen(!isMobileMenuOpen);
  };
 
- const handleUpgrade = async () => {
+ const handleUpgrade = () => {
   if (!user) {
    // Redirect to signup if not logged in
    window.location.href = '/signup';
    return;
   }
-
-  try {
-   await createCheckoutSession({
-    successUrl: `${window.location.origin}/dashboard?checkout=success`,
-    cancelUrl: `${window.location.origin}/?checkout=cancelled`,
-    trialDays: 7
-   });
-  } catch (err) {
-   console.error('Checkout error:', err);
-  }
+  // Redirect to pricing page for upgrade
+  window.location.href = '/pricing';
  };
 
  const scrollToExtractor = () => {
@@ -405,20 +395,10 @@ export default function Home() {
         
         <button
          onClick={handleUpgrade}
-         disabled={loading}
-         className={`btn-gradient w-full mb-4 ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+         className="btn-gradient w-full mb-4"
         >
-         {loading ? (
-          <div className="flex items-center justify-center gap-2">
-           <div className="animate-spin w-4 h-4 border-2 border-white border-t-transparent rounded-full"></div>
-           Processing...
-          </div>
-         ) : (
-          <>
-           Upgrade to Pro
-           <ArrowRight className="w-4 h-4 ml-2" />
-          </>
-         )}
+         Upgrade to Pro
+         <ArrowRight className="w-4 h-4 ml-2" />
         </button>
         <p className="text-center text-sm text-gray-500">
          30-day money-back guarantee

@@ -10,9 +10,9 @@ YTScript is a YouTube transcript extractor and AI analyzer web application built
 
 ### Tech Stack
 - **Frontend**: Next.js 14+ with App Router, React, TypeScript
-- **Styling**: Tailwind CSS with custom theme and dark mode support
+- **Styling**: Tailwind CSS (light theme only)
 - **Fonts**: Inter and JetBrains Mono from Google Fonts
-- **State Management**: React Context API for authentication, theme, and toast notifications
+- **State Management**: React Context API for authentication and toast notifications
 
 ### Project Structure
 ```
@@ -29,12 +29,11 @@ visual-pages/
 │   └── ...
 ├── components/            # Reusable React components
 │   ├── TranscriptExtractor.tsx  # Main extraction interface
-│   ├── ThemeToggle.tsx          # Dark/light mode toggle
+│   ├── Toast.tsx                # Toast notification UI components
 │   └── ...
 ├── contexts/              # React Context providers
 │   ├── AuthContext.tsx    # Authentication state & logic
-│   ├── ThemeContext.tsx   # Theme management
-│   └── ToastContext.tsx   # Toast notifications
+│   └── ToastContext.tsx   # Toast notification state management
 └── globals.css            # Global styles & Tailwind imports
 ```
 
@@ -43,6 +42,8 @@ visual-pages/
 **TranscriptExtractor**: Main component handling video transcript extraction with support for multiple formats (TXT, SRT, JSON, PDF, DOCX, XLSX) and AI summaries.
 
 **AuthContext**: Manages authentication state, protected routes, token refresh, and user session. Protected routes include `/dashboard`, `/extract`, `/history`, `/billing`, `/settings`.
+
+**ToastContext & Toast Components**: The notification system uses a Context/UI separation pattern where ToastContext manages state and Toast.tsx provides the visual components.
 
 **API Integration**: The app expects an API backend at `process.env.NEXT_PUBLIC_API_URL` (defaults to `http://localhost:5000`) with endpoints for:
 - `/api/extract` - Extract transcript from YouTube URL
@@ -88,8 +89,8 @@ npm start
 
 - The app uses absolute imports with `@/` prefix for components, contexts, lib, and hooks
 - Protected routes automatically redirect to `/login` if not authenticated
-- The app includes Stripe integration for Pro subscriptions via custom `useStripe` hook
-- Dark mode is implemented using Tailwind's `dark:` class variants
+- The Pro subscription upgrade redirects to the pricing page
+- The app uses a light theme only (dark mode functionality has been removed)
 - All API calls should handle both success and error responses using the `isApiError` utility
 - The app expects certain API services (`@/lib/api` and `@/hooks/useStripe`) that are not present in the current codebase - these would need to be implemented
 
@@ -97,4 +98,3 @@ npm start
 
 The following modules are imported but not present in the codebase and need to be implemented:
 - `@/lib/api` - API service module with methods like `login`, `register`, `logout`, `getProfile`, `refreshToken`
-- `@/hooks/useStripe` - Stripe integration hook for payment processing
