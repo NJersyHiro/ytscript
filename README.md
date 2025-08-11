@@ -10,6 +10,7 @@ A Next.js web application that extracts transcripts from YouTube videos, provide
 - **AI-Powered Summaries**: Generate intelligent summaries using GPT-4 (Pro feature)
 - **Batch Processing**: Process entire channels and playlists (Pro feature)
 - **Cloud Storage**: 90-day storage with search and organization (Pro feature)
+- **Toast Notifications**: Beautiful notification system with success, error, warning, and info variants
 
 ## 📦 Tech Stack
 
@@ -33,7 +34,7 @@ A Next.js web application that extracts transcripts from YouTube videos, provide
 1. Clone the repository:
 ```bash
 git clone https://github.com/yourusername/ytscript.git
-cd ytscript/visual-pages
+cd ytscript/frontend
 ```
 
 2. Install dependencies:
@@ -63,6 +64,7 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 - [x] Create context providers (AuthContext, ToastContext)
 - [x] Fix layout and navigation
 - [x] Development server running successfully
+- [x] Implement Toast notification system (YTS-15)
 
 ### 🔄 Phase 2: Core Features (IN PROGRESS)
 - [ ] Set up API mocking with MSW
@@ -91,20 +93,21 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 ## 📁 Project Structure
 
 ```
-visual-pages/
+frontend/
 ├── app/                 # Next.js app directory
 │   ├── layout.tsx      # Root layout with providers
 │   ├── page.tsx        # Homepage
 │   ├── globals.css     # Global styles
-│   └── dashboard/      # Dashboard route
+│   ├── dashboard/      # Dashboard route
+│   └── toast-demo/     # Toast notification demo
 ├── components/          # React components
 │   ├── TranscriptExtractor.tsx
-│   ├── Toast.tsx
+│   ├── Toast.tsx       # Toast notification component
 │   ├── ErrorBoundary.tsx
 │   └── MobileMenu.tsx
 ├── contexts/           # React contexts
 │   ├── AuthContext.tsx
-│   └── ToastContext.tsx
+│   └── ToastContext.tsx # Global toast state management
 ├── lib/                # Utility functions
 ├── types/              # TypeScript types
 └── public/             # Static assets
