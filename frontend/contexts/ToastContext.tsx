@@ -95,7 +95,10 @@ export function ToastProvider({ children }: { children: ReactNode }) {
     <ToastContext.Provider value={value}>
       {children}
       {/* Toast Container */}
-      <div className="fixed bottom-4 right-4 z-50 flex flex-col-reverse gap-2 pointer-events-none">
+      <div 
+        className="fixed z-50 flex flex-col-reverse gap-2 pointer-events-none"
+        style={{ bottom: '1rem', right: '1rem' }}
+      >
         {toasts.map((toast) => (
           <div key={toast.id} className="pointer-events-auto">
             <Toast
