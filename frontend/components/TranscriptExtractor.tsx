@@ -122,7 +122,9 @@ export default function TranscriptExtractor() {
    const data = await response.json();
 
    if (!response.ok) {
-    throw new Error(data.error || 'Failed to extract transcript');
+    // Handle the nested error structure from backend
+    const errorMessage = data.error?.message || data.error || data.message || 'Failed to extract transcript';
+    throw new Error(errorMessage);
    }
 
    setResult(data);

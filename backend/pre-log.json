@@ -5,7 +5,7 @@
   "hook_event_name": "PreToolUse",
   "tool_name": "Bash",
   "tool_input": {
-    "command": "git add -A",
-    "description": "Stage all changes"
+    "command": "cd /home/th1kh/ytscript && git add .",
+    "description": "Stage all changes for commit"
   }
 }

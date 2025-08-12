@@ -13,6 +13,7 @@ import healthRoutes from './routes/health.routes';
 import authRoutes from './routes/auth.routes';
 import transcriptRoutes from './routes/transcript.routes';
 import extractRoutes from './routes/extract.routes';
+import subscriptionRoutes from './routes/subscription.routes';
 
 // Import middleware
 import { errorHandler } from './middleware/error.middleware';
@@ -52,6 +53,7 @@ app.use('/health', healthRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/transcripts', transcriptRoutes);
 app.use('/api/extract', extractRoutes);
+app.use('/api/subscription', subscriptionRoutes);
 
 // Error handling middleware (must be last)
 app.use(errorHandler);

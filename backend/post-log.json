@@ -3,15 +3,135 @@
   "transcript_path": "/home/th1kh/.claude/projects/-home-th1kh-ytscript/2ed42234-0525-4e2e-b75e-6a9773a63b8d.jsonl",
   "cwd": "/home/th1kh/ytscript/backend",
   "hook_event_name": "PostToolUse",
-  "tool_name": "Bash",
+  "tool_name": "TodoWrite",
   "tool_input": {
-    "command": "git status",
-    "description": "Check git status"
+    "todos": [
+      {
+        "content": "Analyze current transcript extraction implementation",
+        "status": "completed",
+        "id": "1"
+      },
+      {
+        "content": "Research real YouTube transcript extraction solutions",
+        "status": "completed",
+        "id": "2"
+      },
+      {
+        "content": "Plan implementation strategy for actual transcript content generation",
+        "status": "completed",
+        "id": "3"
+      },
+      {
+        "content": "Install yt-dlp for transcript extraction",
+        "status": "completed",
+        "id": "4"
+      },
+      {
+        "content": "Replace mock data with real yt-dlp transcript extraction",
+        "status": "completed",
+        "id": "5"
+      },
+      {
+        "content": "Add error handling and fallback methods",
+        "status": "completed",
+        "id": "6"
+      },
+      {
+        "content": "Test with real YouTube videos",
+        "status": "completed",
+        "id": "7"
+      },
+      {
+        "content": "Implement AI summary generation for Pro users",
+        "status": "pending",
+        "id": "8"
+      }
+    ]
   },
   "tool_response": {
-    "stdout": "On branch main\nYour branch is behind 'origin/main' by 1 commit, and can be fast-forwarded.\n  (use \"git pull\" to update your local branch)\n\nChanges not staged for commit:\n  (use \"git add <file>...\" to update what will be committed)\n  (use \"git restore <file>...\" to discard changes in working directory)\n\tmodified:   .env.example\n\tmodified:   package-lock.json\n\tmodified:   package.json\n\tmodified:   post-log.json\n\tmodified:   pre-log.json\n\tmodified:   src/controllers/auth.controller.ts\n\tmodified:   src/routes/auth.routes.ts\n\tmodified:   ../frontend/app/login/page.tsx\n\tmodified:   ../post-log.json\n\tmodified:   ../pre-log.json\n\nUntracked files:\n  (use \"git add <file>...\" to include in what will be committed)\n\tsrc/services/\n\tsrc/utils/tokenUtils.ts\n\t../frontend/app/forgot-password/\n\t../frontend/app/reset-password/\n\t../frontend/app/verify-email/\n\nno changes added to commit (use \"git add\" and/or \"git commit -a\")",
-    "stderr": "",
-    "interrupted": false,
-    "isImage": false
+    "oldTodos": [
+      {
+        "content": "Analyze current transcript extraction implementation",
+        "status": "completed",
+        "id": "1"
+      },
+      {
+        "content": "Research real YouTube transcript extraction solutions",
+        "status": "completed",
+        "id": "2"
+      },
+      {
+        "content": "Plan implementation strategy for actual transcript content generation",
+        "status": "completed",
+        "id": "3"
+      },
+      {
+        "content": "Install yt-dlp for transcript extraction",
+        "status": "completed",
+        "id": "4"
+      },
+      {
+        "content": "Replace mock data with real yt-dlp transcript extraction",
+        "status": "completed",
+        "id": "5"
+      },
+      {
+        "content": "Add error handling and fallback methods",
+        "status": "completed",
+        "id": "6"
+      },
+      {
+        "content": "Test with real YouTube videos",
+        "status": "in_progress",
+        "id": "7"
+      },
+      {
+        "content": "Implement AI summary generation for Pro users",
+        "status": "pending",
+        "id": "8"
+      }
+    ],
+    "newTodos": [
+      {
+        "content": "Analyze current transcript extraction implementation",
+        "status": "completed",
+        "id": "1"
+      },
+      {
+        "content": "Research real YouTube transcript extraction solutions",
+        "status": "completed",
+        "id": "2"
+      },
+      {
+        "content": "Plan implementation strategy for actual transcript content generation",
+        "status": "completed",
+        "id": "3"
+      },
+      {
+        "content": "Install yt-dlp for transcript extraction",
+        "status": "completed",
+        "id": "4"
+      },
+      {
+        "content": "Replace mock data with real yt-dlp transcript extraction",
+        "status": "completed",
+        "id": "5"
+      },
+      {
+        "content": "Add error handling and fallback methods",
+        "status": "completed",
+        "id": "6"
+      },
+      {
+        "content": "Test with real YouTube videos",
+        "status": "completed",
+        "id": "7"
+      },
+      {
+        "content": "Implement AI summary generation for Pro users",
+        "status": "pending",
+        "id": "8"
+      }
+    ]
   }
 }
