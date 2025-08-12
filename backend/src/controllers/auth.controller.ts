@@ -7,10 +7,11 @@ import {
   generateAccessToken,
   generateRefreshToken,
   generateEmailVerificationToken,
-  generateResetPasswordToken,
   verifyToken,
 } from '../utils/auth.utils';
 import { PlanType } from '../generated/prisma';
+import { emailService } from '../services/emailService';
+import { tokenUtils } from '../utils/tokenUtils';
 
 export const register = async (
   req: Request,
@@ -56,7 +57,13 @@ export const register = async (
       data: { refreshToken },
     });
     
-    // TODO: Send verification email
+    // Send verification email
+    try {
+      await emailService.sendEmailVerificationEmail(user.email, emailVerificationToken);
+    } catch (emailError) {
+      console.error('Failed to send verification email:', emailError);
+      // Don't fail registration if email fails
+    }
     
     res.status(201).json({
       success: true,
@@ -315,8 +322,8 @@ export const forgotPassword = async (
       return;
     }
     
-    const resetToken = generateResetPasswordToken();
-    const resetExpires = new Date(Date.now() + 60 * 60 * 1000); // 1 hour
+    const resetToken = tokenUtils.generatePasswordResetToken(user.id, user.email);
+    const resetExpires = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours
     
     await prisma.user.update({
       where: { id: user.id },
@@ -326,13 +333,121 @@ export const forgotPassword = async (
       },
     });
     
-    // TODO: Send reset password email
+    // Send reset password email
+    try {
+      await emailService.sendPasswordResetEmail(user.email, resetToken);
+    } catch (emailError) {
+      console.error('Failed to send password reset email:', emailError);
+      // Still return success to avoid email enumeration
+    }
     
     res.json({
       success: true,
       message: 'If the email exists, a password reset link has been sent',
     });
   } catch (error) {
+    next(error);
+  }
+};
+
+export const resendVerificationEmail = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  try {
+    const { email } = req.body;
+    
+    const user = await prisma.user.findUnique({
+      where: { email },
+    });
+    
+    if (!user) {
+      // Don't reveal if email exists
+      res.json({
+        success: true,
+        message: 'If the email exists and is not verified, a verification email has been sent',
+      });
+      return;
+    }
+    
+    if (user.isEmailVerified) {
+      res.json({
+        success: true,
+        message: 'Email is already verified',
+      });
+      return;
+    }
+    
+    // Generate new verification token
+    const emailVerificationToken = tokenUtils.generateEmailVerificationToken(user.id, user.email);
+    
+    // Update user with new token
+    await prisma.user.update({
+      where: { id: user.id },
+      data: { emailVerificationToken },
+    });
+    
+    // Send verification email
+    try {
+      await emailService.sendEmailVerificationEmail(user.email, emailVerificationToken);
+    } catch (emailError) {
+      console.error('Failed to send verification email:', emailError);
+    }
+    
+    res.json({
+      success: true,
+      message: 'If the email exists and is not verified, a verification email has been sent',
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const validateResetToken = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  try {
+    const { token } = req.params;
+    
+    // First, try to verify the JWT token
+    const decoded = tokenUtils.verifyToken(token);
+    
+    if (!decoded || decoded.type !== 'passwordReset') {
+      throw new AppError('Invalid reset token', 400);
+    }
+    
+    // Check if token exists in database and is not expired
+    const user = await prisma.user.findFirst({
+      where: {
+        resetPasswordToken: token,
+        resetPasswordExpires: {
+          gt: new Date(),
+        },
+      },
+      select: {
+        id: true,
+        email: true,
+      },
+    });
+    
+    if (!user) {
+      throw new AppError('Invalid or expired reset token', 400);
+    }
+    
+    res.json({
+      success: true,
+      message: 'Token is valid',
+      data: {
+        email: user.email,
+      },
+    });
+  } catch (error) {
+    if (error instanceof Error && error.name === 'TokenExpiredError') {
+      return next(new AppError('Reset token has expired', 400));
+    }
     next(error);
   }
 };
@@ -369,6 +484,14 @@ export const resetPassword = async (
         resetPasswordExpires: null,
       },
     });
+    
+    // Send password reset success email
+    try {
+      await emailService.sendPasswordResetSuccessEmail(user.email);
+    } catch (emailError) {
+      console.error('Failed to send password reset success email:', emailError);
+      // Don't fail the reset if email fails
+    }
     
     res.json({
       success: true,

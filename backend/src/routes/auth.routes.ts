@@ -43,6 +43,8 @@ router.post(
   authController.forgotPassword
 );
 
+router.get('/reset-password/validate/:token', authController.validateResetToken);
+
 router.post(
   '/reset-password/:token',
   validate({
@@ -52,6 +54,14 @@ router.post(
 );
 
 router.get('/verify-email/:token', authController.verifyEmail);
+
+router.post(
+  '/resend-verification',
+  validate({
+    email: { required: true, type: 'email' },
+  }),
+  authController.resendVerificationEmail
+);
 
 // Protected routes
 router.get('/me', authenticate, authController.getMe);

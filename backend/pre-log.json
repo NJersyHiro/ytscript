@@ -1,11 +1,11 @@
 {
-  "session_id": "4af2b619-b186-46d4-a5a8-20858d8492f1",
-  "transcript_path": "/home/th1kh/.claude/projects/-home-th1kh-ytscript/4af2b619-b186-46d4-a5a8-20858d8492f1.jsonl",
+  "session_id": "2ed42234-0525-4e2e-b75e-6a9773a63b8d",
+  "transcript_path": "/home/th1kh/.claude/projects/-home-th1kh-ytscript/2ed42234-0525-4e2e-b75e-6a9773a63b8d.jsonl",
   "cwd": "/home/th1kh/ytscript/backend",
   "hook_event_name": "PreToolUse",
   "tool_name": "Bash",
   "tool_input": {
-    "command": "git add -A && git status",
-    "description": "Stage all changes and check status"
+    "command": "git add -A",
+    "description": "Stage all changes"
   }
 }
