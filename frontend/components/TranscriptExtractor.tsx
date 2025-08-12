@@ -82,7 +82,7 @@ export default function TranscriptExtractor() {
  const [includeSummary, setIncludeSummary] = useState(false);
  const [summaryType, setSummaryType] = useState('concise');
 
- const isPremium = user?.plan === 'pro';
+ const isPremium = user?.plan?.toLowerCase() === 'pro';
 
  const handleExtract = async () => {
   if (!url.trim()) {
