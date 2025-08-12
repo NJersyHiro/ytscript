@@ -42,9 +42,24 @@
         "id": "7"
       },
       {
+        "content": "Fix Stripe payment webhook issue for Pro feature unlock",
+        "status": "completed",
+        "id": "8"
+      },
+      {
+        "content": "Test Pro features with upgraded user (PDF export) - COMPLETED",
+        "status": "completed",
+        "id": "9"
+      },
+      {
+        "content": "Configure Stripe webhook endpoint in production",
+        "status": "pending",
+        "id": "10"
+      },
+      {
         "content": "Implement AI summary generation for Pro users",
         "status": "pending",
-        "id": "8"
+        "id": "11"
       }
     ]
   },
@@ -82,13 +97,28 @@
       },
       {
         "content": "Test with real YouTube videos",
-        "status": "in_progress",
+        "status": "completed",
         "id": "7"
+      },
+      {
+        "content": "Fix Stripe payment webhook issue for Pro feature unlock",
+        "status": "completed",
+        "id": "8"
+      },
+      {
+        "content": "Test Pro features with upgraded user (PDF export)",
+        "status": "in_progress",
+        "id": "9"
+      },
+      {
+        "content": "Configure Stripe webhook endpoint in production",
+        "status": "pending",
+        "id": "10"
       },
       {
         "content": "Implement AI summary generation for Pro users",
         "status": "pending",
-        "id": "8"
+        "id": "11"
       }
     ],
     "newTodos": [
@@ -128,9 +158,24 @@
         "id": "7"
       },
       {
+        "content": "Fix Stripe payment webhook issue for Pro feature unlock",
+        "status": "completed",
+        "id": "8"
+      },
+      {
+        "content": "Test Pro features with upgraded user (PDF export) - COMPLETED",
+        "status": "completed",
+        "id": "9"
+      },
+      {
+        "content": "Configure Stripe webhook endpoint in production",
+        "status": "pending",
+        "id": "10"
+      },
+      {
         "content": "Implement AI summary generation for Pro users",
         "status": "pending",
-        "id": "8"
+        "id": "11"
       }
     ]
   }
