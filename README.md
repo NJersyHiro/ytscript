@@ -1,158 +1,132 @@
 # YTScript - YouTube Transcript Extractor & AI Analyzer
 
-A Next.js web application that extracts transcripts from YouTube videos, provides AI-powered summaries, and exports in multiple formats.
+A full-stack web application that extracts transcripts from YouTube videos, provides AI-powered summaries, and exports in multiple formats.
 
-## 🚀 Features
+## Features
 
-- **YouTube Transcript Extraction**: Extract transcripts from any YouTube video instantly
-- **Multi-Language Support**: Support for 10+ languages including English, Japanese, Spanish, French
-- **Multiple Export Formats**: Export to TXT, SRT, JSON, PDF, DOCX, XLSX
-- **AI-Powered Summaries**: Generate intelligent summaries using GPT-4 (Pro feature)
-- **Batch Processing**: Process entire channels and playlists (Pro feature)
-- **Cloud Storage**: 90-day storage with search and organization (Pro feature)
-- **Toast Notifications**: Beautiful notification system with success, error, warning, and info variants
+**Free**
+- YouTube transcript extraction from any video
+- Multi-language support (10+ languages)
+- Export to TXT, SRT, JSON
 
-## 📦 Tech Stack
+**Pro**
+- AI-powered summaries (OpenAI GPT-4)
+- Batch processing for channels and playlists
+- Export to PDF, DOCX, XLSX
+- 90-day cloud storage with search
 
-- **Frontend**: Next.js 14.2.5, React 18, TypeScript
-- **Styling**: Tailwind CSS, Framer Motion
-- **State Management**: Context API, Zustand
-- **Forms**: React Hook Form with Zod validation
-- **Payments**: Stripe integration
-- **Charts**: Recharts
-- **Testing**: Jest, React Testing Library, MSW
+## Tech Stack
 
-## 🛠️ Installation
+| Layer | Technology |
+|-------|-----------|
+| Frontend | Next.js 14, React 18, TypeScript, Tailwind CSS |
+| Backend | Express.js 5, TypeScript, Prisma ORM |
+| Database | PostgreSQL |
+| Auth | NextAuth.js (Google OAuth), JWT |
+| Payments | Stripe |
+| AI | OpenAI API |
+| Transcript | yt-dlp |
+
+## Getting Started
 
 ### Prerequisites
 
 - Node.js >= 18.17.0
-- npm or yarn
+- PostgreSQL
+- yt-dlp (installed globally or in backend/)
 
 ### Setup
 
 1. Clone the repository:
 ```bash
 git clone https://github.com/yourusername/ytscript.git
-cd ytscript/frontend
+cd ytscript
 ```
 
-2. Install dependencies:
+2. Set up the backend:
 ```bash
+cd backend
 npm install
-```
-
-3. Configure environment variables:
-```bash
-cp .env.example .env.local
-# Edit .env.local with your configuration
-```
-
-4. Run the development server:
-```bash
+cp .env.example .env   # Edit with your credentials
+npx prisma generate
+npx prisma migrate dev
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser.
-
-## 📝 Development Status
-
-### ✅ Phase 1: Foundation Setup (COMPLETED)
-- [x] Initialize Next.js project with TypeScript
-- [x] Configure Tailwind CSS
-- [x] Set up environment variables
-- [x] Create context providers (AuthContext, ToastContext)
-- [x] Fix layout and navigation
-- [x] Development server running successfully
-- [x] Implement Toast notification system (YTS-15)
-
-### 🔄 Phase 2: Core Features (IN PROGRESS)
-- [ ] Set up API mocking with MSW
-- [ ] Enhance TranscriptExtractor component
-- [ ] Implement results display
-- [ ] Add loading states and error handling
-
-### 📋 Upcoming Phases
-- Phase 3: Authentication System
-- Phase 4: Landing Page & UI Polish
-- Phase 5: Dashboard & User Features
-- Phase 6: Pro Features & Payments
-- Phase 7: Quality, Testing & Deployment
-
-## 🔧 Available Scripts
-
-- `npm run dev` - Start development server
-- `npm run build` - Build for production
-- `npm run start` - Start production server
-- `npm run lint` - Run ESLint
-- `npm run type-check` - Run TypeScript type checking
-- `npm run format` - Format code with Prettier
-- `npm run test` - Run tests in watch mode
-- `npm run test:ci` - Run tests in CI mode
-
-## 📁 Project Structure
-
-```
-frontend/
-├── app/                 # Next.js app directory
-│   ├── layout.tsx      # Root layout with providers
-│   ├── page.tsx        # Homepage
-│   ├── globals.css     # Global styles
-│   ├── dashboard/      # Dashboard route
-│   └── toast-demo/     # Toast notification demo
-├── components/          # React components
-│   ├── TranscriptExtractor.tsx
-│   ├── Toast.tsx       # Toast notification component
-│   ├── ErrorBoundary.tsx
-│   └── MobileMenu.tsx
-├── contexts/           # React contexts
-│   ├── AuthContext.tsx
-│   └── ToastContext.tsx # Global toast state management
-├── lib/                # Utility functions
-├── types/              # TypeScript types
-└── public/             # Static assets
+3. Set up the frontend:
+```bash
+cd frontend
+npm install
+cp .env.example .env.local   # Edit with your API URL
+npm run dev
 ```
 
-## 🚦 API Endpoints
+4. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-The frontend expects a backend API at `http://localhost:5000` with the following endpoints:
+## Project Structure
+
+```
+ytscript/
+├── frontend/              # Next.js frontend
+│   ├── app/               # App Router pages
+│   │   ├── api/auth/      # NextAuth routes
+│   │   ├── dashboard/     # User dashboard
+│   │   ├── login/         # Login page
+│   │   ├── signup/        # Registration
+│   │   ├── pricing/       # Pricing page
+│   │   └── ...
+│   ├── components/        # React components
+│   ├── contexts/          # Auth & Toast contexts
+│   └── lib/               # Utilities
+├── backend/               # Express.js API
+│   ├── src/
+│   │   ├── controllers/   # Route handlers
+│   │   ├── services/      # Business logic
+│   │   ├── middleware/     # Auth, validation, errors
+│   │   ├── routes/        # API routes
+│   │   └── utils/         # Helpers
+│   └── prisma/            # DB schema & migrations
+└── hooks/                 # Claude Code hooks
+```
+
+## API Endpoints
 
 ### Authentication
-- POST `/api/auth/login`
-- POST `/api/auth/register`
-- POST `/api/auth/forgot-password`
-- POST `/api/auth/reset-password`
+- `POST /api/auth/register` - User registration
+- `POST /api/auth/login` - User login
+- `POST /api/auth/forgot-password` - Password reset request
+- `POST /api/auth/reset-password` - Password reset
 
-### Core Features
-- POST `/api/extract` - Extract single video transcript
-- POST `/api/extract/batch` - Batch process videos
-
-### User Management
-- GET/PUT `/api/user/profile`
-- GET `/api/user/stats`
+### Transcript Extraction
+- `POST /api/extract` - Extract single video transcript
+- `POST /api/extract/batch` - Batch extraction (Pro)
 
 ### Subscription
-- GET `/api/subscription`
-- POST `/api/subscription/upgrade`
+- `GET /api/subscription` - Get subscription status
+- `POST /api/subscription/upgrade` - Upgrade to Pro
 
-## 🤝 Contributing
+### Health
+- `GET /api/health` - API health check
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+## Available Scripts
 
-## 📄 License
+### Frontend (`cd frontend`)
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | Start dev server (port 3000) |
+| `npm run build` | Production build |
+| `npm run lint` | Run ESLint |
+| `npm run type-check` | TypeScript checking |
+| `npm run test` | Run tests |
 
-This project is licensed under the MIT License.
+### Backend (`cd backend`)
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | Start dev server (port 5000) |
+| `npm run build` | Compile TypeScript |
+| `npm run db:migrate` | Run database migrations |
+| `npm run db:studio` | Open Prisma Studio |
 
-## 🔗 Links
+## License
 
-- [Linear Project Board](https://linear.app/ytscript)
-- [API Documentation](./docs/API.md)
-- [Implementation Plan](./IMPLEMENTATION_PLAN_V2.md)
-
----
-
-**Current Development Phase**: Phase 2 - Core Features Implementation
+MIT

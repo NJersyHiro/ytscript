@@ -4,73 +4,92 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-YTScript is a Next.js application for extracting YouTube transcripts with AI-powered analysis. The project uses React with TypeScript for the frontend and includes features for transcript extraction, format conversion, and AI summaries.
+YTScript is a full-stack application for extracting YouTube transcripts with AI-powered analysis. It uses a monorepo structure with separate frontend and backend directories.
 
 ## Project Structure
 
-- `/visual-pages/` - Main Next.js application directory
-  - `/app/` - Next.js app router pages (dashboard, login, signup, terms)
-  - `/components/` - React components (TranscriptExtractor, Toast, ErrorBoundary, MobileMenu)
-
-## Development Setup and Commands
-
-Since there is no package.json in the root, development should be run from the `visual-pages` directory:
-
-```bash
-cd visual-pages
-# Install dependencies (if package.json exists)
-npm install
-# Run development server
-npm run dev
-# or
-next dev
+```
+ytscript/
+├── frontend/          # Next.js 14 frontend (React, TypeScript, Tailwind CSS)
+│   ├── app/           # Next.js App Router pages
+│   ├── components/    # React components
+│   ├── contexts/      # React context providers (Auth, Toast)
+│   ├── lib/           # Utility functions
+│   ├── mocks/         # MSW mock handlers
+│   ├── types/         # TypeScript type definitions
+│   └── public/        # Static assets
+├── backend/           # Express.js backend (TypeScript, Prisma)
+│   ├── src/
+│   │   ├── controllers/   # Route handlers
+│   │   ├── services/      # Business logic
+│   │   ├── middleware/     # Auth, error handling, validation
+│   │   ├── routes/        # API route definitions
+│   │   ├── utils/         # Utility functions
+│   │   ├── config/        # Database config
+│   │   └── server.ts      # Entry point
+│   └── prisma/            # Database schema & migrations
+└── hooks/             # Claude Code hooks
 ```
 
-## Architecture Overview
+## Development Commands
 
-### Frontend Architecture
-- **Framework**: Next.js 14+ with App Router
-- **Styling**: Tailwind CSS with custom gradient utilities
-- **Authentication**: Context-based auth system with AuthContext
-- **State Management**: React Context API (AuthContext, ToastContext)
-- **UI Components**: Custom component library with glass effects and gradient styling
+### Frontend (from `/frontend`)
+```bash
+npm install          # Install dependencies
+npm run dev          # Start dev server (port 3000)
+npm run build        # Production build
+npm run lint         # Run ESLint
+npm run type-check   # TypeScript checking
+npm run test         # Run tests (watch mode)
+```
 
-### Key Components
+### Backend (from `/backend`)
+```bash
+npm install          # Install dependencies
+npm run dev          # Start dev server with nodemon (port 5000)
+npm run build        # Compile TypeScript
+npm run start        # Start production server
+npm run db:generate  # Generate Prisma client
+npm run db:migrate   # Run database migrations
+npm run db:studio    # Open Prisma Studio
+```
 
-**TranscriptExtractor** (`components/TranscriptExtractor.tsx`):
-- Main feature component handling YouTube URL input
-- Multi-format export (TXT, SRT, JSON, PDF, DOCX, XLSX)
-- Language selection support (10+ languages)
-- AI summary integration (Pro feature)
-- Premium vs free feature differentiation
+## Architecture
 
-**Context Providers**:
-- `AuthContext`: User authentication and plan management
-- `ToastContext`: Global notification system
+### Frontend
+- **Framework**: Next.js 14.2.5 with App Router
+- **Styling**: Tailwind CSS with glass morphism effects
+- **Auth**: NextAuth.js with Google OAuth
+- **State**: React Context (AuthContext, ToastContext) + Zustand
+- **Forms**: React Hook Form + Zod validation
+- **Payments**: Stripe.js
+
+### Backend
+- **Framework**: Express.js 5 with TypeScript
+- **Database**: PostgreSQL via Prisma ORM
+- **Auth**: JWT with bcryptjs
+- **Payments**: Stripe
+- **Email**: Nodemailer
+- **Transcript**: yt-dlp for YouTube transcript extraction
+- **AI**: OpenAI API for summaries
 
 ### API Integration
-- API endpoint: `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/extract`
-- POST request with URL, language, formats, and summary options
-- Handles both free and premium format responses
-
-### Styling Patterns
-- Glass morphism effects with backdrop blur
-- Custom gradients (gradient-hero, gradient-cta, gradient-text)
-- Electric glow effects for premium features
-- Responsive design with mobile-first approach
+- Frontend API URL: `NEXT_PUBLIC_API_URL` (defaults to `http://localhost:5000`)
+- Main endpoint: `POST /api/extract` (URL, language, formats, summary options)
 
 ## Environment Variables
 
-Required environment variables:
-- `NEXT_PUBLIC_API_URL` - Backend API URL (defaults to http://localhost:5000)
+### Frontend (`frontend/.env.local`)
+- `NEXT_PUBLIC_API_URL` - Backend API URL
+
+### Backend (`backend/.env`)
+- `DATABASE_URL` - PostgreSQL connection string
+- `JWT_SECRET` - JWT signing key
+- `STRIPE_SECRET_KEY` / `STRIPE_PUBLISHABLE_KEY` - Stripe keys
+- `SMTP_HOST` / `SMTP_USER` / `SMTP_PASS` - Email config
+- `OPENAI_API_KEY` - OpenAI API key
 
 ## Key Features
 
-- **Free Features**: Single video extraction, TXT/SRT/JSON export, multi-language support
-- **Pro Features**: AI summaries (GPT-4), batch processing, PDF/DOCX/XLSX export, cloud storage
-
-## Important Notes
-
-- The project appears to be missing core configuration files (package.json, tsconfig.json, next.config.js)
-- Context providers are referenced but their implementation files are not present
-- The backend API service is expected to run on port 5000
+- **Free**: Single video extraction, TXT/SRT/JSON export, multi-language support
+- **Pro**: AI summaries, batch processing, PDF/DOCX/XLSX export, cloud storage

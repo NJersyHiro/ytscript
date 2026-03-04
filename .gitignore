@@ -106,3 +106,22 @@ yarn-error.log*
 /test-results/
 /playwright-report/
 /playwright/.cache/
+
+# Claude Code session logs
+**/pre-log.json
+**/post-log.json
+
+# yt-dlp binary
+backend/yt-dlp
+
+# Prisma generated client (regenerate with npx prisma generate)
+backend/src/generated/
+
+# Test transcript files
+*.vtt
+
+# Planning docs (local reference only)
+IMPLEMENTATION_PLAN.md
+IMPLEMENTATION_PLAN_V2.md
+TICKET_OVERVIEW.md
+demo.md
